@@ -26,8 +26,8 @@
                                 "name": "test-pod",
                                 "imagePullPolicy": "IfNotPresent",
                                 "resources":{
-                                  "limits":{
-                                    "memory":"340Mi"
+                                  "requests":{
+                                    "memory":"20Mi"
                                   }
                                 }
                             }
