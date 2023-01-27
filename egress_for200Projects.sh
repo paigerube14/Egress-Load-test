@@ -40,9 +40,9 @@ for i in {101..200};do echo pod$i=mypod;mypod=$(oc get pods -n test$i|awk 'NR==2
 
 #for instance-->curl to the ipecho service '10.0.13.150' from outside and verify if it hits the egress ip "ipv4":"10.0.48.0/20"
 
-for i in {1..100}; do echo pod$i=mypod;mypod=$(oc get pods -n test$i|awk 'NR==2{print $1}');echo $mypod;echo $test$i;oc project test$i;egress=$(oc exec $mypod -- curl 10.0.11.26:9095);echo $egress;done
+for i in {1..100}; do echo pod$i=mypod;mypod=$(oc get pods -n test$i|awk 'NR==2{print $1}');echo $mypod;echo $test$i;oc project test$i;egress=$(oc exec $mypod -- curl 10.0.9.64:9095);echo $egress;done
 
-for i in {101..200}; do echo pod$i=mypod;mypod=$(oc get pods -n test$i|awk 'NR==2{print $1}');echo $mypod;echo $test$i;oc project test$i;egress=$(oc exec $mypod -- curl 10.0.11.26:9095);echo $egress;done
+for i in {101..200}; do echo pod$i=mypod;mypod=$(oc get pods -n test$i|awk 'NR==2{print $1}');echo $mypod;echo $test$i;oc project test$i;egress=$(oc exec $mypod -- curl 10.0.9.64:9095);echo $egress;done
 #cluster is enabled with ipecho service and https://mastern-jenkins-csb-openshift-qe.apps.ocp-c1.prod.psi.redhat.com/job/ocp-common/job/ginkgo-test/ is run successfully 
 
 #Delete all the projects for next iteration
