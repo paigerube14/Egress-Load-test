@@ -20,8 +20,8 @@ oc label node  $worker_node2 "k8s.ovn.org/egress-assignable"=""
 #TO Automatically get the value of ipv4 address and add the number of ip's in the same subnet of ipv4 in the egress object yaml files.
 oc describe node $worker_node1|grep egress -C 3
 #To create 2 egress objects
-oc create -f /home/sninganu/egress/config_egressip_ovn_ns_qe_podSelector_red.yaml
-oc create -f /home/sninganu/egress/config_egressip_ovn_ns_qe_podSelector_blue.yaml
+oc create -f config_egressip_ovn_ns_qe_podSelector_red.yaml
+oc create -f config_egressip_ovn_ns_qe_podSelector_blue.yaml
 
 #to get egressip's
 oc get egressip>egressip.txt
@@ -29,7 +29,7 @@ oc get egressip>egressip.txt
 #create test projects, and create some test pods in them, label the projects
 
 for i in {1..4};
-do oc new-project test$i;oc create -f /home/sninganu/egress/verification-tests/testdata/networking/list_for_pods.json;sleep 5;oc get pods;oc label ns test$i department=qe;
+do oc new-project test$i;oc create -f list_for_pods.json;sleep 5;oc get pods;oc label ns test$i department=qe;
 done
 
 
