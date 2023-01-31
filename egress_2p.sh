@@ -7,7 +7,7 @@
 ##############################################################################
 #echo $private_ip_address
 echo $ENV_VARS
-echo $ip_p
+echo $private_ip_address
 oc get clusterversion
 MASTER_NODES_COUNT=$(oc get node -l node-role.kubernetes.io/master= --no-headers | wc -l)
 WORKER_NODES_COUNT=$(oc get node -l node-role.kubernetes.io/worker= --no-headers | wc -l)
@@ -43,10 +43,10 @@ for i in {3..4};do echo pod$i=mypod;mypod=$(oc get pods -n test$i|awk 'NR==2{pri
 #curl to the ipecho service '10.0.13.150' from outside and verify if it hits the egress ip "ipv4":"10.0.48.0/20"
 
 echo "print ing the env variable from pipeline"
-echo $ip_p;
-for i in {1..2}; do echo pod$i=mypod;mypod=$(oc get pods -n test$i|awk 'NR==2{print $1}');echo $mypod;echo $test$i;oc project test$i;egress=$(oc exec $mypod -- curl "$ip_p":9095);echo $egress;done
+echo $private_ip_address;
+for i in {1..2}; do echo pod$i=mypod;mypod=$(oc get pods -n test$i|awk 'NR==2{print $1}');echo $mypod;echo $test$i;oc project test$i;egress=$(oc exec $mypod -- curl "$private_ip_address":9095);echo $egress;done
 
-for i in {3..4}; do echo pod$i=mypod;mypod=$(oc get pods -n test$i|awk 'NR==2{print $1}');echo $mypod;echo $test$i;oc project test$i;egress=$(oc exec $mypod -- curl "$ip_p":9095);echo $egress;done
+for i in {3..4}; do echo pod$i=mypod;mypod=$(oc get pods -n test$i|awk 'NR==2{print $1}');echo $mypod;echo $test$i;oc project test$i;egress=$(oc exec $mypod -- curl "$private_ip_address":9095);echo $egress;done
 #cluster is enabled with ipecho service and https://mastern-jenkins-csb-openshift-qe.apps.ocp-c1.prod.psi.redhat.com/job/ocp-common/job/ginkgo-test/ is run successfully 
 
 #Delete all the projects for next iteration
