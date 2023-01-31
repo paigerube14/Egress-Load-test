@@ -40,6 +40,8 @@ for i in {3..4};do echo pod$i=mypod;mypod=$(oc get pods -n test$i|awk 'NR==2{pri
 
 #curl to the ipecho service '10.0.13.150' from outside and verify if it hits the egress ip "ipv4":"10.0.48.0/20"
 
+echo "print ing the env variable from pipeline"
+echo $ENV_VARS;
 for i in {1..2}; do echo pod$i=mypod;mypod=$(oc get pods -n test$i|awk 'NR==2{print $1}');echo $mypod;echo $test$i;oc project test$i;egress=$(oc exec $mypod -- curl "$ENV_VARS":9095);echo $egress;done
 
 for i in {3..4}; do echo pod$i=mypod;mypod=$(oc get pods -n test$i|awk 'NR==2{print $1}');echo $mypod;echo $test$i;oc project test$i;egress=$(oc exec $mypod -- curl "$ENV_VARS":9095);echo $egress;done
