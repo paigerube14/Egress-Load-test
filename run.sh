@@ -1,3 +1,5 @@
+echo "print the env var"
+echo $ENV_VARS
 echo -e "\033[1m$(date -u) ${@}\033[0m" >>result01.txt
 ./egress_2p.sh >>result01.txt;sleep 5
 
