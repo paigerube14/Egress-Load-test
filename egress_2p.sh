@@ -45,7 +45,7 @@ for i in {1..2}; do echo pod$i=mypod;mypod=$(oc get pods -n test$i|awk 'NR==2{pr
 for i in {3..4}; do echo pod$i=mypod;mypod=$(oc get pods -n test$i|awk 'NR==2{print $1}');echo $mypod;echo $test$i;oc project test$i;egress=$(oc exec $mypod -- curl $ENV_VARS:9095);echo $egress;done
 #cluster is enabled with ipecho service and https://mastern-jenkins-csb-openshift-qe.apps.ocp-c1.prod.psi.redhat.com/job/ocp-common/job/ginkgo-test/ is run successfully 
 
-#Delete all the projects for next iteration
-#for i in {1..4}; do oc delete ns test$i;done
+Delete all the projects for next iteration
+for i in {1..4}; do oc delete ns test$i;done
 echo "###################################ITERATION COMPLETE###########################################"
 sleep 3
