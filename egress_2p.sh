@@ -6,7 +6,6 @@
 #   
 ##############################################################################
 #echo $private_ip_address
-echo $ENV_VARS
 echo $private_ip_address
 oc get clusterversion
 MASTER_NODES_COUNT=$(oc get node -l node-role.kubernetes.io/master= --no-headers | wc -l)

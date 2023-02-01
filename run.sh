@@ -1,6 +1,5 @@
 echo "print the env var"
 echo "private_ip_address"
-env
 echo "$private_ip_address"
 echo -e "\033[1m$(date -u) ${@}\033[0m" >>result01.txt
 ./egress_2p.sh $private_ip_address>>result01.txt;sleep 5
