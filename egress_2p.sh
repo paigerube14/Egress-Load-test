@@ -13,6 +13,10 @@ WORKER_NODES_COUNT=$(oc get node -l node-role.kubernetes.io/worker= --no-headers
 echo $MASTER_NODES_COUNT master nodes and  $WORKER_NODES_COUNT worker nodes
 worker_node1=`oc get node -l node-role.kubernetes.io/worker= --no-headers|awk 'NR==1{print $1}'`
 worker_node2=`oc get node -l node-role.kubernetes.io/worker= --no-headers|awk 'NR==2{print $1}'`
+#Reading the ipvalue from global var
+ls $WORKSPACE/flexy-artifacts/workdir/install-dir/ipfile.txt
+private_ip_address=`cat $WORKSPACE/flexy-artifacts/workdir/install-dir/ipfile.txt`
+echo "private_ip_address"
 
 #Assign the nodes to be eressable
 oc label node  $worker_node1 "k8s.ovn.org/egress-assignable"=""
