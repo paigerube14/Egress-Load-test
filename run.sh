@@ -1,4 +1,6 @@
 echo "print the env var"
+ls flexy-artifacts/workdir/install-dir/ipfile.txt
+private_ip_address=`cat flexy-artifacts/workdir/install-dir/ipfile.txt`
 echo "private_ip_address"
 echo "$private_ip_address"
 echo -e "\033[1m$(date -u) ${@}\033[0m" >>result01.txt
