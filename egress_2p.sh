@@ -5,7 +5,7 @@
 # Arguments:
 #   
 ##############################################################################
-#echo $private_ip_address
+private_ip_address=$1
 echo $private_ip_address
 oc get clusterversion
 MASTER_NODES_COUNT=$(oc get node -l node-role.kubernetes.io/master= --no-headers | wc -l)
@@ -13,10 +13,6 @@ WORKER_NODES_COUNT=$(oc get node -l node-role.kubernetes.io/worker= --no-headers
 echo $MASTER_NODES_COUNT master nodes and  $WORKER_NODES_COUNT worker nodes
 worker_node1=`oc get node -l node-role.kubernetes.io/worker= --no-headers|awk 'NR==1{print $1}'`
 worker_node2=`oc get node -l node-role.kubernetes.io/worker= --no-headers|awk 'NR==2{print $1}'`
-#Reading the ipvalue from global var
-ls $WORKSPACE/flexy-artifacts/workdir/install-dir/ipfile.txt
-private_ip_address=`cat $WORKSPACE/flexy-artifacts/workdir/install-dir/ipfile.txt`
-echo "private_ip_address"
 
 #Assign the nodes to be eressable
 oc label node  $worker_node1 "k8s.ovn.org/egress-assignable"=""
@@ -31,10 +27,19 @@ oc create -f config_egressip_ovn_ns_qe_podSelector_blue.yaml
 #to get egressip's
 oc get egressip>egressip.txt
 
-#create test projects, and create some test pods in them, label the projects
+create test projects, and create some test pods in them, label the projects
 
 for i in {1..4};
-do oc new-project test$i;oc create -f list_for_pods.json;sleep 5;oc get pods;oc label ns test$i department=qe;
+do 
+    export test_num=$i
+    test_name=test$test_num
+    envsubst < namespace.yaml > namespace$test_num.yaml
+    oc create -f namespace$test_num.yaml
+    oc create -f list_for_pods.json -n $test_name
+    rc_name=$(oc get rc -n $test_name --no-headers -o name)
+    sleep 5
+    oc wait $rc_name --for jsonpath='{.status.readyReplicas}'=2 --timeout=90s -n $test_name
+    oc get pods -n $test_name
 done
 
 
